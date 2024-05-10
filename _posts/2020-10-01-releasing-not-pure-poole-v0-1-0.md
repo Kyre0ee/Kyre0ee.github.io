@@ -2,9 +2,7 @@
 layout: post
 title: Releasing Not Pure Poole v0.1.0
 author: Songzi Vong
-tags:
-- jekyll theme
-- jekyll
+tags: 示例
 date: 2020-10-01 13:56 +0800
 ---
 The Jekyll theme **Not Pure Poole** v0.1.0 was released!
