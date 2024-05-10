@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Testing MathJax
-tags: 数学
+tags: 示例
 math: true
 date: 2020-10-02 15:32 +0800
 ---
