@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 7.Xposed模块编写&Api详解
+title: 7.Xposed模块编写&Api详解&快速Hook
 date: 2023-05-17 15:57 +0800
 tags: 安卓逆向
 toc: true
@@ -72,14 +72,205 @@ compileOnly 只在编译时有效，不会参与打包`
 });`
 
 2. Hook复杂&自定义参数
-`XposedHelpers.findAndHookMethod("com.zj.wuaipojie.Demo", classLoader, "complexParameterFunc", java.lang.String.class,java.util.HashMap,new XC_MethodHook(){
+`
+Class a = loadPackageParam.classLoader.loadClass("com.zj.wuaipojie.Demo");
+XposedBridge.hookAllMethods(a, "Inner", new XC_MethodHook() {
+    @Override
+    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+        super.beforeHookedMethod(param);
+        }
+});`
+3. Hook替换函数
+`class a = classLoader.loadClass("类名")
+ XposedBridge.hookAllmethods(a,"getId",new XC_MethodReplacement() {
+     @Override
+     protected Object replaceHookedMethod(MethodHookParam methodHookParam) throws Throwable {
+         return "";
+     }
+});`
+4. Hook加固通杀
+`XposedHelpers.findAndHookMethod(Application.class, "attach", Context.class, new XC_MethodHook() {
+     @Override
+     protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+          Context context = (Context) param.args[0];
+          ClassLoader classLoader = context.getClassLoader();//先拿到加载器classLoader
+          //做后续操作
+   }
+});`
+# 7.Xposed常用API
+***
+## 7.1 Hook变量
+静态变量与实例变量：
++ 静态变量（static）:类被初始化，同步进行初始化
++ 非静态变量：类被实例化（产生一个对象的时候），进行初始化
+  `//静态变量
+  final Class clazz = XposedHelpers.findClass("类名", classLoader);
+  XposedHelpers.setstaticIntField(clazz, "变量名", 999);
+  //实例变量
+  final Class clazz = XposedHelpers.findClass("类名", classLoader);
+  XposedBridge.hookAllConstructors(clazz, new XC_MethodHook() {
+      @Override
+      protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+          super.afterHookedMethod(param);
+          //param.thisObject获取当前所属的对象
+          Object ob = param.thisobject;
+          XposedHelpers.setIntField(ob,"变量名",999);
+  )`
+## 7.2 Hook构造函数
+`//无参数构造函数
+ XposedHelpers.findAndHookConstructor("com.zj.wuaipojie.Demo", classLoader, new XC_MethodHook() {
      @Override
      protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
          super.beforeHookedMethod(param);
-         param.args[0] = 999;
      }
      @Override
-     protected void afterHookedMethod(MethodHookparam param) throws Throwable {
+     protected void afterHookedMethod(MethodHookParam param) throws Throwable {
          super.afterHookedMethod(param);
      }
-});`
+});
+//有参构造函数
+XposedHelpers.findAndHookConstructor("com.zj.wuaipojie.Demo", classLoader, String.class,new XC_MethodHook() {
+     @Override
+     protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+         super.beforeHookedMethod(param);
+     }
+     @Override
+     protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+         super.afterHookedMethod(param);
+     }
+});
+`
+## 7.3 HookmultiDex方法
+`
+XposedHelpers.findAndHookMethod(Application.class, "attach", Context.class, new XC_MethodHook() {
+    @Override
+    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+        ClassLoader c1 = ((Context)param.args[0]).getClassLoader();
+        Class<?> hookclass = null;
+        try {
+            hookclass=c1.loadClass("类名");
+        }catch (Exception e){
+            Log.e("zj2595","未找到类", e);
+            return;
+        }
+        XposedHelpers.findAndHookMethod(hookclass, "方法名", new XC_MethodHook() {
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+            }
+        });
+    }
+});
+`
+## 7.4 主动调用
+`
+//静态方法
+Class clazz = XposedHelpers.findClass("类名",lpparam.classLoader);
+XposedHelpers.callStaticMethod(clazz,"方法名",参数(非必须))；
+//实例方法
+Class clazz = XposeHelpers.findClass("类名",lpparam.classLoader);
+XposedHelpers.callMethod(clazz.newInstance(),"方法名",参数(非必须))；
+`
+## 7.5 Hook内部类
+`内部类:类里还有一个类class
+XposedHelpers.findAndHookMethod("com.zj.wuaipojie.Demo$InnerClass", lpparam.classLoader, "innerFunc", String.class, new XC_MethodHook()) {
+    @Override
+    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+        super.beforeHookedMethod(param);
+    }
+  });`
+## 7.6 反射大法
+`
+Class clazz = XposedHelers.findClass("com.zj.wuaipojie.Demo", lpparam.classLoader);
+XposedHelpers.findAndHookMethod("com.zj.wuaipojie.Demo$InnerClass", lpparam.classLoader, "innerFunc",String.class, new XC_MethodHook()){
+    @Override
+    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+        super.beforeHookMethod(param);
+        //第一步找到类
+        //找到方法，如果是私有方法就要setAccessible设置访问权限
+        //invoke主动调用或者set修改值(变量)
+        Class democlass = Class.forName("com.zj.wuaipojie.Demo",false,lpparam.classLoader);
+        Method demomethod = democlass.getDeclaredMethod("refl");
+        demomethod.setAccessible(true);
+        demomethod.invoke(clazz.newInstance());
+    }
+});
+`
+## 7.7 遍历所有类下的所有方法
+`
+XposedHelpers.findAndHookMethod(ClassLoader.class, "loadClass", String.class, new XC_MethodHook() {
+    @Override
+    protected void afterHookMethod(MethodHookParam param) throws Throwable {
+        supper.afterHookedMethod(param);
+        Class clazz = (Class) param.getResult();
+        String clazzName = clazz.getName();
+        //排除非包名的类
+        if(clazzName.contains("com.zj.wuaipojie")){
+            Method[] mds = clazz.getDeclaredMethods();
+            for(int i = 0;i<mds.length;i++){
+                final Method md = mds[i];
+                int mod = mds[i].getModifiers();
+                //去除抽象、native、接口方法
+                if(!Modifier.isAbstract(mod)&& !Modifier.isNative(mod) &&!Modifier.isAbstract(mod)){
+                    XposedBridge.hookMethod(mds[i], new XC_MethodHook() {
+                    @Override
+                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                        super.beforeHookedMethod(param);
+                        Log.d("zj2595",md.toString());
+                    }
+              });
+         }
+  }
+}
+}
+});
+`
+## 7.8 Xposed妙用
+`
+//字符串赋值定位
+XposedHelpers.findAndHookMethod("android.widget.TextView",lpparam.classLoader, "setText", CharSqeuence.class, new XC_MethodHook() {
+    @Override
+    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+        super.beforeHookedMethod(param);
+        Log.d("zj2595",param.args[0].toString());
+        if(param.args[0].equals("已过期")){
+            printStackTrace();
+        }
+    }
+});
+//打印堆栈调用代码的实现
+pricate static void printStackTrace() {
+    Throwable ex = new Throwable();
+    StackTraceElement[] stackElements = ex.getStackTrace();
+    for(int i = 0; i < stackElements.length; i++) {
+        StackTraceElement element = stackElements[i];
+        Log.d("zj2595","at "+element.getClassName()+"."+element.getMethodName() + "(" + element.getFileName())
+    }
+}
+//点击事件监听
+Class clazz = XposedHelpers.findClass("android.view.View", lpparam.classLoader);
+XposedBridge.hookAllMethods(clazz, "perfformClick", new XC_MethodHook() {
+    @Override
+    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+        super.afterHookedMethod(param);
+        Object listenerInfoObject = XposedHelpers.getobjectField(param.thisObject,"mListenerInfo");
+        Object mOnclickListenerObject = XposedHelpers.getObjectField(listenerInfoObject, "mOnClickListener");
+        String callbackType = mOnClickListenerObject.getClass().getName();
+        Log.d("zj2595",callbackType);
+    }
+  });
+//改写布局
+XposedHelpers.findAndHookMethod("com.zj.wuaipojie.ui.ChallengeSixth",lpparam.classLoader, "onCreate", Bundle.class, new XC_MethodHook() {
+    @Override
+    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+        super.afterHookedMethod(param);
+        View img = (View)XposedHelpers.callMethod(param.thisObject, "findViewById",0x7f0800de);//传入要找到的id的十六进制
+        img.setVisibility(View.GONE);
+        }
+    }
+});
+`
+# 8.Xposed模块patch
+LSPatch
+# 9.Xposed快速Hook
+SimpleHook
+jsHook
