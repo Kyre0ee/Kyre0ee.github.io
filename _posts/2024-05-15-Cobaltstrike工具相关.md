@@ -71,5 +71,40 @@ AES算法使用硬编码初始化向量（IV）进行初始化，静态IV为abcd
 元数据遵循结构化格式，
 开头magic(0xBEEF)为4字节
 数据字段的大小为4字节
-Beacon生成的随机字节为16字节，对于每个进程运行都是唯一的。
+Beacon生成的随机字节为16字节，对于每个进程运行都是唯一的。Beacon和TeamServer使用这些字节来创建AES密钥和HMAC密钥。该过程计算字节的SHA256哈希值。SHA256的前16字节被指定为对称加密的AES密钥，其余16字节是消息认证码的HMAC密钥。
+ANSI字符集2个字节。
+OEM字符集2个字节。
+BeaconID四个字节。
+受害者机器上Beacon的进程ID四个字节。
+端口2个字节。
+flag1字节。
+Beacon版本号2字节。这些字节被转换为带有.的字符串。插入它们之间，例如A.B
+Beacon的构建版本2字节。
+为函数指针添加前缀4字节，只有架构64位才用，32位这4字节被丢弃。
+指向GetModuleHandleA指针4字节
+指向GetProcAddress指针4字节
+受害者IP地址4字节
+\t分割的UTF-8字符，数据结构为ComputerName\tUsername\tBeaconProcessName
+
 ### 公钥/私钥生成和提取
+AES密钥是通过非对称密钥加密的，很难破译。
+C2通信时通过对称密钥加密的，很难找到指纹标记。
+### 3.C2流量分析
+流量分析分为三个部分：
+1. Cobalt Strike Beacon 下载
+2. C2 Beacon心跳
+   对心跳包的Cookie进行解密（运行cs-crypto-parser.py 脚本）拿到RSA的public Key 和private key
+4. C2任务请求和响应
+   有效负载的Cookie继续进行解密拿到Sha256digest和AESkey HMACkey
+
+解密过程由Decrypt()函数处理，该函数执行以下操作：
+1.从加密的有效负载中提取 HMAC 签名。
+2.使用加密负载上的 HMAC 密钥计算并验证 HMAC 签名。
+3.加载 AES 密钥并设置模式 (CBC) 及其初始化向量 (IV)。
+4.解密加密的有效负载。
+当Beacon接收并执行C2服务器提供的任务时，结果被收集并返回给TeamServer。
+## cobalt-strike配置文件
+![image](https://github.com/kyre0e/kyre0e.github.io/assets/169347540/89b5551a-d873-4185-94e7-04feca214a50)
+1.对于 GET 请求，大多数请求 URI 都非常短并且具有预定义的模式。 这些 URI 是从图 1 中默认配置文件中的 set uri 下指定的 URI 列表中随机选择的。 如果恶意攻击者使用在 http-get 部分内设置了 uri 选项的自定义配置文件，则可以轻松地将 URI 修改为任意字符串。 基于模式的签名可以很好地捕获使用默认配置文件的 Cobalt Strike 流量，但无法捕获自定义配置文件的任何变化。
+2.对于 POST 请求，URI 中有一个预定义模式 – /submit.php?id=。 ID值是随机生成的。 与 HTTP GET 请求的可能性类似，如果恶意攻击者使用在 http-post 部分中设置了 uri 选项的自定义配置文件，则恶意攻击者可以轻松地将 URI 修改为任意字符串。
+
