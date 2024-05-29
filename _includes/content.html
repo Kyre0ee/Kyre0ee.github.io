@@ -1,17 +1,22 @@
 <main>
   {{ content }}
 </main>
-
+<!-- main 元素用于包含主要内容，{{ content }} 是 Jekyll 变量，用于插入当前页面的内容 -->
 <footer class="footer">
   {%- assign year_from = site.posts[-1].date | date: '%Y' -%}
+  <!-- 获取最早的文章年份。site.posts[-1] 代表最早的文章，date: '%Y' 将日期格式化为四位数的年份 -->
+  
   {%- assign year_to   = site.time | date: '%Y' -%}
+  <!-- 获取当前年份。site.time 是当前时间，date: '%Y' 将日期格式化为四位数的年份 -->
   {%- if year_from == nil or year_from == year_to -%}
     {%- assign year_string = year_from -%}
+  <!-- 如果 year_from 为空（没有文章）或 year_from 和 year_to 相同（只有当年的文章），则 year_string 仅为 year_from -->
   {%- else -%}
     {%- assign year_string = year_from | append: '&nbsp;' | append: '-' | append: '&nbsp;' | append: year_to -%}
+    <!-- 否则，将 year_from 和 year_to 组成一个范围字符串，用空格和短横线连接 -->
   {%- endif -%}
   <small>
     &copy; {{ year_string }} {% if site.author %}<a href="{{ site.author.url }}">{{ site.author.name }}</a>{% endif %}. All rights reserved.
-    Powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://github.com/vszhub/not-pure-poole">Not Pure Poole</a>.
+    <!-- 显示版权年份（year_string），如果 site.author 存在，则显示作者的链接和名字 -->
   </small>
 </footer>
