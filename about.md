@@ -4,11 +4,11 @@ title: About
 ---
 
 <div align="center">  
-  <p><strong>kyre0e</strong></p>  
+  <p><strong> kyre0e </strong></p>  
 </div>  
 ***  
 
-<center>🕿: xxxxx 📩: xxxx 📖: https://Kyre0ee.github.io</center>  
+<center>🕿: xxxxx  📩: xxxx  📖: https://Kyre0ee.github.io</center>  
 
 💁‍♀️ **个人信息**  
 
