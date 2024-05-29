@@ -1,6 +1,6 @@
 # Setup
 title: kyre0e的博客
-description: 简单的记录学习记录的个人博客网站
+description: blog记录
 url: https://Kyre0ee.github.io
 # Specify the author for blog posts
 author:
@@ -31,19 +31,10 @@ exclude:
   - README.md
   - scripts/
   - .gemspec
-  #- kyre0e.github.io.gemspec
-  #- _posts/2020-09-29-welcome-to-not-pure-poole.md
-  #- _posts/2020-10-01-releasing-not-pure-poole-v0-1-0.md
-  #- _posts/2020-10-02-testing-mathjax.md
-# Optimize Jekyl SEO Tag
-#twitter:
-#  username: kyre0e
-#  card: summary
 logo: logo.png
 social:
   name: Kyre0ee
   links:
-    #- https://twitter.com/kyre0e
     - https://github.com/Kyre0ee
 google_site_verification: xxxxx
 lang: zh
@@ -52,11 +43,4 @@ sass:
   sass_dir: _sass
   style: :compressed
 
-# Options
-
-# Replace this value and uncomment to enable Google Analytics tracking
-# google_analytics: UA-000000-0
-
-# Replace this value and uncomment to enable Disqus
-# disqus: xxxxxx
 
