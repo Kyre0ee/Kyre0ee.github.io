@@ -3,8 +3,9 @@ layout: default
 ---
 
 {% include home-header.html %}
-
+<!-- 包含名为 home-header.html 的文件，通常用于网站的头部 -->
 <div class="posts">
+  <!-- 遍历 paginator.posts 集合中的每篇文章 -->
   {% for post in paginator.posts %}
   <section class="post-entry">
     <h2 class="post-title">
@@ -12,34 +13,43 @@ layout: default
         {{ post.title }}
       </a>
     </h2>
+    <!-- 显示文章标题，并链接到文章的 URL -->
 
     <div class="post-meta">
       <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date_to_string }}</time>
+      <!-- 显示文章日期，两个不同的格式：XML schema 和字符串格式 -->
       {%- if jekyll.environment == "production" and site.disqus -%}
         <span> • </span>
         <a class="comment-count" href="{{ post.url | relative_url }}#disqus_thread">
           <span class="disqus-comment-count" data-disqus-url="{{ post.url | absolute_url }}"></span>
         </a>
       {%- endif -%}
+      <!-- 如果是在生产环境并且配置了 Disqus，显示评论计数链接 -->
     </div>
 
     <p>{{ post.excerpt | strip_html }}</p>
+    <!-- 显示文章摘要，去除 HTML 标签 -->
   </section>
   {% endfor %}
+  <!-- 结束文章遍历 -->
   {%- if jekyll.environment == "production" and site.disqus -%}
     <script id="dsq-count-scr" src="//{{ site.disqus }}.disqus.com/count.js" async></script>
   {%- endif -%}
+  <!-- 如果是在生产环境并且配置了 Disqus，加载评论计数脚本 -->
 </div>
 
 <div class="pagination">
+  <!-- 分页导航 -->
   {% if paginator.next_page %}
-    <a class="pagination-item older" href="{{ paginator.next_page_path | relative_url }}">之前得文章</a>
+    <a class="pagination-item older" href="{{ paginator.next_page_path | relative_url }}">上一页</a>
   {% else %}
-    <span class="pagination-item older">之前得文章</span>
+    <span class="pagination-item older">上一页</span>
   {% endif %}
+  <!-- 如果有下一页，显示链接到下一页，否则显示不可点击的文本 -->
   {% if paginator.previous_page %}
-    <a class="pagination-item newer" href="{{ paginator.previous_page_path | prepend: relative_url }}">新得文章</a>
+    <a class="pagination-item newer" href="{{ paginator.previous_page_path | prepend: relative_url }}">下一页</a>
   {% else %}
-    <span class="pagination-item newer">新得文章</span>
+    <span class="pagination-item newer">下一页</span>
   {% endif %}
+  <!-- 如果有上一页，显示链接到上一页，否则显示不可点击的文本 -->
 </div>
