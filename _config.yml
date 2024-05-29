@@ -1,8 +1,13 @@
 # Setup
 title: kyre0e的博客
 description: 简单的记录学习记录的个人博客网站
-url: https://kyre0e.github.io
-avatar: /avatar.jpeg
+url: https://Kyre0ee.github.io
+# Specify the author for blog posts
+author:
+  name: Kyre0e
+  email: kyre0@outlook.com
+  avatar: /avatar.jpeg
+  
 paginate: 5
 permalink: pretty
 cover_image: /bg.jpeg
@@ -31,15 +36,15 @@ exclude:
   #- _posts/2020-10-01-releasing-not-pure-poole-v0-1-0.md
   #- _posts/2020-10-02-testing-mathjax.md
 # Optimize Jekyl SEO Tag
-twitter:
-  username: kyre0e
-  card: summary
+#twitter:
+#  username: kyre0e
+#  card: summary
 logo: logo.png
 social:
-  name: Kyre0e
+  name: Kyre0ee
   links:
     #- https://twitter.com/kyre0e
-    - https://github.com/kyre0e
+    - https://github.com/Kyre0ee
 google_site_verification: xxxxx
 lang: zh
 
@@ -54,9 +59,7 @@ sass:
 
 # Replace this value and uncomment to enable Disqus
 # disqus: xxxxxx
+links:
+  - title: Blogs
+    url: /blogs/
 
-# Specify the author for blog posts
-author:
-  name: Kyre0e
-  url: https://github.com/kyre0e/
-  email: kyre0e@gmail.com
