@@ -45,11 +45,15 @@ layout: default
   {% else %}
     <span class="pagination-item older">上一页</span>
   {% endif %}
+  
   <!-- 如果有下一页，显示链接到下一页，否则显示不可点击的文本 -->
+  
   {% if paginator.previous_page %}
     <a class="pagination-item newer" href="{{ paginator.previous_page_path | prepend: relative_url }}">下一页</a>
   {% else %}
     <span class="pagination-item newer">下一页</span>
   {% endif %}
+  
   <!-- 如果有上一页，显示链接到上一页，否则显示不可点击的文本 -->
+  
 </div>
