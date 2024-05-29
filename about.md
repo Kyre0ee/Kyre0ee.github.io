@@ -7,7 +7,7 @@ title: About
   <p><strong>kyre0e</strong></p>  
 </div>  
 ***  
-<center>🕿: xxxxx 📩: xxxx 📖: https://kyre0e.github.io</center>  
+<center>🕿: xxxxx 📩: xxxx 📖: https://Kyre0ee.github.io</center>  
 ** 💁‍♀️个人信息 **  
 
 ***  
@@ -20,7 +20,7 @@ title: About
 + 学士： xxxx大学，软件工程专业，2016.9-2020.7  
 ** 💼工作经历 **  
 ***  
-+ xxx公司，xxx部门，xxx工程师，2019.7-2020.3(实习) 2020.7-至今  
++ xxx公司，xxx部门，xxx工程师，2019.7(实习) - 2020.7-至今  
 负责xxx  
 ** 🔨项目经历 **  
 + xxx项目  
