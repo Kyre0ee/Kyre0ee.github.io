@@ -59,7 +59,4 @@ sass:
 
 # Replace this value and uncomment to enable Disqus
 # disqus: xxxxxx
-links:
-  - title: Blogs
-    url: /blogs/
 
