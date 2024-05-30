@@ -33,6 +33,7 @@
         <li class="pure-menu-item">
           <a class="social-icon pure-menu-link" href="{{ social.url }}">
             <i class="{{ social.icon | default: 'fas fa-link' }}" title="{{ social.title }}"></i>
+            <span>{{ social.title }}</span>
           </a>
         </li>
       {%- endfor %}
