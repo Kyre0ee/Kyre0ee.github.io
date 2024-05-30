@@ -31,6 +31,9 @@ exclude:
   - README.md
   - scripts/
   - .gemspec
+  - _posts/2020-09-29-welcome-to-not-pure-poole.md
+  - _posts/2020-10-01-releasing-not-pure-poole-v0-1-0.md
+  - _posts/2020-10-02-testing-mathjax.md
 logo: logo.png
 social:
   name: Kyre0ee
