@@ -1,36 +1,22 @@
-{%- if site.data.archive -%}  
-  <!-- 如果 site.data.archive 存在 -->
-  {%- for item in site.data.archive -%}  
-   <!-- 遍历 site.data.archive 中的每个项目 -->
+{%- if site.data.archive -%}
+  {%- for item in site.data.archive -%}
     {%- if item.type == "tags" -%}
-      <!-- 如果项目的类型为 "tags" -->
       {% assign tags_archive_page = item.url %}
-      <!-- 将 item.url 分配给 tags_archive_page 变量 -->
       {% break %}
-      <!-- 退出循环，因为我们已经找到了标签归档页面的 URL -->
     {%- endif -%}
   {%- endfor -%}
 {%- endif -%}
 
 <div class="post-tags-section">
-  <!-- 定义一个包含标签部分的 div 元素 -->
   <i class="post-tags-icon fas fa-tags"></i>
-  <!-- 显示一个标签图标，使用 Font Awesome 的标签图标类 -->
   <ul class="post-tags">
-    <!-- 定义一个未排序列表，包含所有的标签 -->
     {%- for tag in page.tags -%}
-    <!-- 遍历当前页面的标签 -->
       <li>
-        <!-- 定义一个列表项 -->
         {% assign slugified_tag = tag | slugify %}
-        <!-- 将标签转换为 URL 友好的格式（slugify）并分配给 slugified_tag 变量 -->
         {%- if tags_archive_page -%}
-        <!-- 如果 tags_archive_page 已定义 -->
           <a class="post-tag" href="{{ tags_archive_page | relative_url }}#{{ slugified_tag }}">{{ slugified_tag }}</a>
-        <!-- 创建一个链接，指向标签归档页面的相应位置，链接文本为 slugified_tag -->
         {%- else -%}
           <span class="post-tag">{{ slugified_tag }}</span>
-        <!-- 否则，只显示标签的文本内容 -->
         {%- endif -%}
       </li>
     {%- endfor -%}

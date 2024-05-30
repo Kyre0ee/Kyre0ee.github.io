@@ -1,50 +1,37 @@
 <script>
   function strip(str, remove) {
-    // 移除字符串开头和结尾的指定字符
     while (str.length > 0 && remove.indexOf(str.charAt(0)) != -1) {
       str = str.substr(1);
     }
     while (str.length > 0 && remove.indexOf(str.charAt(str.length - 1)) != -1) {
       str = str.substr(0, str.length - 1);
     }
-    // 返回处理后的字符串
     return str;
   }
 
   function scroll() {
-    // 实现页面滚动到窗口高度位置的函数
-    console.log('scroll');// 打印 'scroll' 到控制台，供调试使用
+    console.log('scroll');
     window.scrollTo({
       left: 0, 
       top: window.innerHeight,
       behavior: 'smooth'
-      // 以平滑滚动的方式滚动到页面顶部高度为窗口高度的位置
     });
     sessionStorage.removeItem('forceCheckScroll');
-     // 从 sessionStorage 中移除 'forceCheckScroll' 项
   }
 
   const forceCheckScroll = sessionStorage.getItem('forceCheckScroll') === 'true';
-  // 从 sessionStorage 获取 'forceCheckScroll' 项，并检查其是否为 'true'
   const checkScroll = strip(window.location.pathname, '/') !== strip('{{ site.baseurl }}', '/');
-  // 检查当前路径是否与网站基准 URL 不同，忽略前后的斜杠
 
   if (forceCheckScroll || checkScroll) {
-    // 如果 'forceCheckScroll' 为 true 或当前路径与基准 URL 不同
     const maxWidth = "(max-width: 48rem)";
-    // 定义最大宽度媒体查询条件
     const result = window.matchMedia(maxWidth);
-    // 使用媒体查询条件创建一个 MediaQueryList 对象
     if (result.matches) {
       scroll();
     } else {
       result.addListener((match) => {
-        // 否则，添加监听器，当媒体查询结果改变时触发回调函数
         if (match.media == maxWidth) {
-          // 检查是否是相同的媒体查询条件
           if (match.matches) {
             scroll();
-            // 如果视口宽度匹配媒体查询条件，调用 scroll 函数
           }
         }
       });

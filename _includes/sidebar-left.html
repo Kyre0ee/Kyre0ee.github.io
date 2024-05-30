@@ -1,48 +1,38 @@
 <header class="masthead">
   {% if site.avatar -%}
-    <!-- 如果站点配置中存在头像 -->
     <div class="avatar">
       {%- if site.avatar contains "://" -%}
-         <!-- 如果头像 URL 包含 "://"，表示是绝对路径 -->
         {%- assign avatar = site.avatar -%}
       {%- else -%}
-        <!-- 如果头像 URL 不包含 "://"，表示是相对路径 -->
         {%- assign avatar = site.avatar | relative_url -%}
       {%- endif -%}
       <img src="{{ avatar }}" class="avatar-image" alt="{{ site.author.name }}">
-      <!-- 显示头像图片，alt 属性为作者名称 -->
     </div>
   {%- endif %}
   <div class="masthead-title">
     <a href="{{ "/" | relative_url }}" title="Home">{{ site.title }}</a>
-    <!-- 显示站点标题，链接到主页 -->
   </div>
   <div class="masthead-tagline">
     <small>{{ site.description }}</small>
-    <!-- 显示站点描述 -->
   </div>
   {%- if site.data.navigation -%}
-  <!-- 如果存在导航数据 -->
   <nav class="navigation">
     <ul class="navigation-list">
     {%- for nav in site.data.navigation -%}
       <li class="navigation-item">
         <a onclick="sessionStorage.setItem('forceCheckScroll', 'true')" href="{{ nav.url | relative_url }}">{{ nav.title | escape }}</a>
-        <!-- 显示导航项，并设置点击时的事件处理 -->
       </li>
     {%- endfor -%}
     </ul>
   </nav>
   {%- endif -%}
   {% if site.data.social -%}
-  <!-- 如果存在社交数据 -->
     <div class="social pure-menu pure-menu-horizontal">
       <ul class="social-icons pure-menu-list">
       {% for social in site.data.social -%}
         <li class="pure-menu-item">
           <a class="social-icon pure-menu-link" href="{{ social.url }}">
             <i class="{{ social.icon | default: 'fas fa-link' }}" title="{{ social.title }}"></i>
-            <!-- 显示社交图标，默认为链接图标 -->
           </a>
         </li>
       {%- endfor %}
