@@ -1,10 +1,7 @@
 ---
 layout: page
-title: About
+title: About Me
 ---
-
-# About Me
-
 
 **Kyre0ee (kyre0, )**  
 
