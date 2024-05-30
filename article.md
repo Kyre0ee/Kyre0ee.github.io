@@ -1,6 +1,6 @@
 ---
 layout: archive-categories
-permalink: /article/index.html
+permalink: /article
 title: article
 type: article
 ---
