@@ -1,17 +1,26 @@
 <div id="disqus_thread"></div>
+<!-- 定义一个容器，用于存放 Disqus 评论系统 -->
 <script>
   var disqus_config = function () {
     this.page.url = '{{ page.url | absolute_url }}';
     this.page.identifier = '{{ page.url | absolute_url }}';
-  };
-
+  };  
+  <!-- 定义一个配置函数 disqus_config，用于配置 Disqus 评论系统：
+       - this.page.url：当前页面的绝对 URL
+       - this.page.identifier：当前页面的唯一标识符，使用绝对 URL -->  
+    
   (function() {
-    var d = document, s = d.createElement('script');
+    var d = document, s = d.createElement('script');  
+    <!-- 创建一个自执行匿名函数，用于动态加载 Disqus 的嵌入脚本 -->
+    s.src = 'https://{{ site.disqus }}.disqus.com/embed.js';  
+    <!-- 设置脚本的 src 属性为 Disqus 的嵌入脚本 URL，使用站点的 Disqus 短名称 -->
 
-    s.src = 'https://{{ site.disqus }}.disqus.com/embed.js';
-
-    s.setAttribute('data-timestamp', +new Date());
+    s.setAttribute('data-timestamp', +new Date());  
+    <!-- 为脚本元素添加一个 data-timestamp 属性，值为当前时间的时间戳，用于避免缓存问题 -->
     (d.head || d.body).appendChild(s);
+    <!-- 将脚本元素添加到文档的头部或主体中 -->
   })();
 </script>
+<!-- 结束脚本标签 -->
 <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+<!-- 如果用户的浏览器不支持 JavaScript，显示一个提示信息，引导用户启用 JavaScript 以查看 Disqus 评论 -->
