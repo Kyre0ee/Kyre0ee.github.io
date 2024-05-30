@@ -3,6 +3,7 @@ layout: post
 title: CobaltStrike相关内容
 date: 2024-05-17 09:30
 tags: DNS隧道,C2,Cobalt Strike
+excerpt: "本文主要分析cobalt-strike如何进行C2链接。"
 toc: true
 ---
 # 隧道工具Cobalt-strike
