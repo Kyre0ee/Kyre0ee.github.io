@@ -1,8 +1,7 @@
 ---
-layout: archive-taxonomies
+layout: page
 permalink: /article/
 title: article
-type: article
 ---
 
 ## article
