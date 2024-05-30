@@ -11,7 +11,7 @@
       <!-- 遍历 site.data.archive 中的每个项目 -->
         <li class="pure-menu-item">  
           <!-- 定义列表项，使用 Pure CSS 的列表项类 -->
-          <a href="{{ item.url | relative_url }}" class="pure-menu-link {% if page.url == item.url %}current-item{% endif %}"">{{ item.title }}</a>  
+          <a href="{{ item.url | relative_url }}" class="pure-menu-link {% if page.url == item.url %}current-item{% endif %}">{{ item.title }}</a>  
           <!-- 定义链接：- href 属性使用 Liquid 语法将 item.url 转换为相对 URL- class 属性根据当前页面 URL 是否与 item.url 匹配，动态添加 "current-item" 类- 显示 item.title 作为链接文本 -->
         </li>
       {% endfor %}  
