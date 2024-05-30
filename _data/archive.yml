@@ -1,9 +1,9 @@
 - type: dates
-  title: 日期
+  title: Dates
   url: /dates/
-- type: article
-  title: 文章
-  url: /article/
+#- type: categories
+#  title: Categories
+#  url: /categories/
 - type: tags
-  title: 标签
+  title: Tags
   url: /tags/
