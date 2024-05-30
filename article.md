@@ -1,6 +1,6 @@
 ---
-layout: archive-categories
-permalink: /article
+layout: archive-taxonomies
+permalink: /article/
 title: article
 type: article
 ---
