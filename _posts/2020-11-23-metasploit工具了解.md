@@ -1,3 +1,12 @@
+---
+layout: post
+title: metasploit工具了解
+date: 2021-06-26 09:30
+tags: 其他
+excerpt: "本文介绍metasploit工具使用&学习笔记。"
+toc: true
+---	
+
 ## metasploit了解
 
 更新至2020/11/23含有4125个exploits 1125个auxiliary 352个post 592个payloads 45个encoders 10 nops:10、 evasion:7
