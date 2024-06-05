@@ -116,13 +116,16 @@ layout: archive-dates
 
 如果您想在页面上写数学，只需`math: true`在该页面上设置以启用 MathJax  
 
-### 修改摘要  
+### 修改摘要
+
 默认情况下，post.excerpt 会自动生成文章的摘要，通常是文章开头的一部分。如果你想手动控制摘要长度或内容，可以在文章的 Front Matter（文章开头的 YAML 区域）中添加 excerpt 字段。
+
 ---
 title: "My Blog Post"
 date: 2024-05-29
 excerpt: "This is a custom excerpt for my blog post."
 ---
+
 或者，如果你想截取文章内容的前 N 个字符作为摘要，可以这样做：
 <p>{{ post.content | strip_html | truncatewords: 50 }}</p>  
 将文章内容截取到前 50 个单词，并去除 HTML 标签。
