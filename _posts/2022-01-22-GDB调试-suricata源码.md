@@ -1,3 +1,12 @@
+---
+layout: post
+title: GDB调试-suricata源码
+date: 2022-01-22 09:30
+tags: 逆向
+excerpt: "本文介绍 GDB调试-suricata源码记录。"
+toc: true
+---	
+
 ## GDB调试-suricata源码
 
 ### 1.   静态分析
